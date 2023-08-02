@@ -1,13 +1,13 @@
-#BLE Data
+# BLE Data
 
-##Service UUID Terms
+## Service UUID Terms
 
 **GATT:** Generic Attribute Profile is used to define the way that two Bluetooth devices exchange data. GATT is a hierarchical data structure with the following organization.
 
--**Services:** A service is a collection of related characteristics that define a specific functionality or feature of a Bluetooth device. (Battery service, heart rate service, text service, etc.) _Has a UUID_
--**Characteristics** A characteristic is a value that belongs to a service and represents a specific piece of data provided by that service. Characteristics can be read, written, or notified to enable communication between devices. For instance, a heart rate measurement characteristic or a temperature sensor reading characteristic. _Has its own UUID the assigned characteristic UUID’s given by the Bluetooth SIG can be found here (Section 3.8):_ [Assigned Numbers Sheet](https://btprodspecificationrefs.blob.core.windows.net/assigned-numbers/Assigned%20Number%20Types/Assigned_Numbers.pdf)  
+- **Services:** A service is a collection of related characteristics that define a specific functionality or feature of a Bluetooth device. (Battery service, heart rate service, text service, etc.) _Has a UUID_
+- **Characteristics** A characteristic is a value that belongs to a service and represents a specific piece of data provided by that service. Characteristics can be read, written, or notified to enable communication between devices. For instance, a heart rate measurement characteristic or a temperature sensor reading characteristic. _Has its own UUID the assigned characteristic UUID’s given by the Bluetooth SIG can be found here (Section 3.8):_ [Assigned Numbers Sheet](https://btprodspecificationrefs.blob.core.windows.net/assigned-numbers/Assigned%20Number%20Types/Assigned_Numbers.pdf)  
 
--**Descriptor:** A descriptor provides additional information about a characteristic value it describes how the characteristic value should be interpreted or accessed. 
+- **Descriptor:** A descriptor provides additional information about a characteristic value it describes how the characteristic value should be interpreted or accessed. 
 
 ###Types of Service and characteristic UUID's
 Services and characteristics are identified by their UUID. There are two types.
@@ -17,9 +17,9 @@ Services and characteristics are identified by their UUID. There are two types.
 
 An interesting type of service UUID is a “member service UUID”. This type of UUID replaces the typical service UUID to purposefully hide the type of service being provided. It is 16 bits. For example if you see the member service UUID 0xFD82, this means that the service you are seeing was produced by Sony. However, you can’t know anything about what the service does without proper documentation. Apple owns 27 Member service UUID’s. I have been unable to determine what any of them do. 
 
-###Transmission of UUID’s:
+### Transmission of UUID’s:
 
-####16-bit
+#### 16-bit
 
 Even though there are two sizes of UUID’s, they are always represented as 128 bits. The 16-bit UUID’s are transmitted as 16 bits; but are then turned into a 128-bit UUID using the Bluetooth base UUID with the following formula:
 
@@ -27,14 +27,14 @@ Even though there are two sizes of UUID’s, they are always represented as 128 
 
 Where the Bluetooth base UUID is 00000000-0000-1000-8000-00805F9B34FB. All this really means is that you will never actually see a “16-bit UUID” everything will be 128 bits. The 16-bit UUID’s registered with Bluetooth SIG will appear as: 0000XXXX-0000-1000-8000-00805F9B34FB where the XXXX is the 16-bit UUID. For example, one of the UUID’s I found in the database is 0000FEBE-0000-1000-8000-00805F9B34FB. Looking up 0xFEBE corresponds to the member service UUID of Bose. This doesn’t necessarily mean that the device that sent this is a Bose device. It just means that the Bluetooth service the device is advertising was produced by Bose. However, I don’t see why a Bluetooth service made by Bose wouldn’t be on a Bose device.
 
-####128-bit
+#### 128-bit
 
 True custom 128-bit UUID’s are transmitted as is. This is why it costs $3000 to purchase a 16-bit service UUID. Custom 128-bit UUID’s are essentially random numbers and there is not a way to determine the type of service they are advertising without documentation. Some examples from the sample database are: 
 06aa1910-f22a-11e3-9daa-0002a5d5c51b
 33330eae-edbf-11e4-90ec-1681e6b88ec1
 abbaff00-e56a-484c-b832-8b17cf6cbfe8
 
-###Helpful UUID commands
+### Helpful UUID commands
 
 On a windows computer, you can access your UUID with the following command in cmd:
 wmic csproduct get UUID 
@@ -45,11 +45,11 @@ SELECT * FROM cyclonedaq.data
 WHERE JSON_EXTRACT(j,'$.svc_uuid') LIKE '%00805f9b34fb%';
 
 
-###Device UUID
+### Device UUID
 
 BLE service UUID’s are different from the UUID of a device. The UUID of a device is a unique 128 bit number that identifies the device. No two devices have the same UUID. This number is not something we get in Bluetooth packets. Additionally, not every device has a UUID. Apple uses a unique identifier called “UDID” (Unique Device Identifier) to ID iphones. This UDID is not transmitted over a Bluetooth packet.
 
-##BLE data frequency
+## BLE data frequency
 
 The following tables were produced using the database from the live knoxville site. **Neither phone advertised a service UUID unless I requested them to.**
 
